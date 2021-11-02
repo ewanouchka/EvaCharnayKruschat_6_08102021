@@ -1,2 +1,4 @@
 grille_devaluation_p6.jpg
 .vscode
+/*/node_modules
+/*/.env
