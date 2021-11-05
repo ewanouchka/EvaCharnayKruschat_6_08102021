@@ -77,32 +77,12 @@ exports.rateOneSauce = (req, res, next) => {
       if (ratedObject.like === 1) {
         sauce.likes = parseInt(sauce.likes) + 1;
         sauce.usersLiked.push(ratedObject.userId);
-
-        Sauce.updateOne(
-          { _id: req.params.id },
-          {
-            likes: sauce.likes,
-            usersLiked: sauce.usersLiked,
-            dislikes: sauce.dislikes,
-            usersDisliked: sauce.usersDisliked,
-            _id: req.params.id,
-          }
-        )
-          .then(() => res.status(200).json({ message: "Vous aimez cette sauce !" }))
-          .catch((error) => res.status(400).json({ error }));
       }
 
       // si le frontend renvoie -1 (on dislike une sauce)
       if (ratedObject.like === -1) {
         sauce.dislikes = parseInt(sauce.dislikes) + 1;
         sauce.usersDisliked.push(ratedObject.userId);
-
-        Sauce.updateOne(
-          { _id: req.params.id },
-          { dislikes: sauce.dislikes, usersDisliked: sauce.usersDisliked, _id: req.params.id }
-        )
-          .then(() => res.status(200).json({ message: "Vous n'aimez pas cette sauce !" }))
-          .catch((error) => res.status(400).json({ error }));
       }
 
       // si le frontend renvoie 0 (le même userID clique à nouveau sur like ou sur dislike)
@@ -116,20 +96,31 @@ exports.rateOneSauce = (req, res, next) => {
           sauce.dislikes = parseInt(sauce.dislikes) - 1;
           sauce.usersDisliked.splice(sauce.usersDisliked.indexOf(ratedObject.userId), 1);
         }
-
-        Sauce.updateOne(
-          { _id: req.params.id },
-          {
-            likes: sauce.likes,
-            usersLiked: sauce.usersLiked,
-            dislikes: sauce.dislikes,
-            usersDisliked: sauce.usersDisliked,
-            _id: req.params.id,
-          }
-        )
-          .then(() => res.status(200).json({ message: "Votre vote a bien été annulé !" }))
-          .catch((error) => res.status(400).json({ error }));
       }
+
+      // puis on modifie la sauce
+      Sauce.updateOne(
+        { _id: req.params.id },
+        {
+          likes: sauce.likes,
+          usersLiked: sauce.usersLiked,
+          dislikes: sauce.dislikes,
+          usersDisliked: sauce.usersDisliked,
+          _id: req.params.id,
+        }
+      )
+        .then(() => {
+          if (ratedObject.like === 1) {
+            res.status(200).json({ message: "Vous aimez cette sauce !" });
+          }
+          if (ratedObject.like === -1) {
+            res.status(200).json({ message: "Vous n'aimez pas cette sauce !" });
+          }
+          if (ratedObject.like === 0) {
+            res.status(200).json({ message: "Votre vote a bien été annulé !" });
+          }
+        })
+        .catch((error) => res.status(400).json({ error }));
     })
 
     .catch((error) => res.status(400).json({ error }));
