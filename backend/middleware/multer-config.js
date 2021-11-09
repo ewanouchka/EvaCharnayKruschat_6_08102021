@@ -1,4 +1,4 @@
-// import moldule multer pour la gestion des fichiers images
+// import module multer pour la gestion des fichiers images
 const multer = require("multer");
 
 // définition des formats d'images permis
