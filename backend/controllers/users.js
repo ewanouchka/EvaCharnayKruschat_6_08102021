@@ -1,10 +1,16 @@
-const bcrypt = require("bcrypt");
+// import modèle de user
 const User = require("../models/User");
+
+// import des modules pour sécurisation des données
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+// import variables environnementales
 const dotEnv = require("dotenv");
 dotEnv.config();
 const dbSecretToken = process.env.TOKEN_SECRET;
 
+// fonction enregistrer un nouvel utilisateur
 exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
@@ -21,6 +27,7 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
+// fonction connexion d'un utilisateur
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {

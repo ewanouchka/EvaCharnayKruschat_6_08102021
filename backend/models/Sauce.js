@@ -1,5 +1,9 @@
+// import mongoose
 const mongoose = require("mongoose");
 
+// création du modèle d'objet sauce
+// les likes et dislikes sont par défaut implémentés à 0
+// le tableau des utilisateurs likant ou dislikant est vide par défaut
 const sauceSchema = mongoose.Schema({
   userId: { type: String, required: true },
   name: { type: String, required: true },
@@ -10,8 +14,8 @@ const sauceSchema = mongoose.Schema({
   heat: { type: Number, required: true },
   likes: { type: Number, required: true, default: 0 },
   dislikes: { type: Number, required: true, default: 0 },
-  usersLiked: { type: Array, required: true },
-  usersDisliked: { type: Array, required: true },
+  usersLiked: { type: Array, required: true, default: [] },
+  usersDisliked: { type: Array, required: true, default: [] },
 });
 
 module.exports = mongoose.model("Sauce", sauceSchema);

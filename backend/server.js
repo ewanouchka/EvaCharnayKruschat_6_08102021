@@ -1,6 +1,9 @@
+// import du package http pour créer le serveur
 const http = require("http");
+// import de l'application express app.js
 const app = require("./app");
 
+// on normalise le format du port
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -13,9 +16,11 @@ const normalizePort = (val) => {
   return false;
 };
 
+// on renvoie à l'app soit la variable environnementale port, soit le port 3000 par défaut après normalisation
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
+// on recherche les éventuelles erreurs
 const errorHandler = (error) => {
   if (error.syscall !== "listen") {
     throw error;
@@ -37,6 +42,7 @@ const errorHandler = (error) => {
   }
 };
 
+// création du serveur
 const server = http.createServer(app);
 
 server.on("error", errorHandler);
