@@ -1,6 +1,6 @@
-grille_devaluation_p6.jpg
 .vscode
-/*/node_modules
-/*/.env
-/backend/images
+*/node_modules
+.env
+backend/images
 .DS_Store
+frontend
