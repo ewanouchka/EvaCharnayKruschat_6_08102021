@@ -1,6 +1,7 @@
 .vscode
 */node_modules
 .env
-backend/images/*
+backend/images/*.jpg
+backend/images/*.png
 .DS_Store
 *.pptx
