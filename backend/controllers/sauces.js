@@ -119,16 +119,18 @@ exports.rateOneSauce = (req, res, next) => {
         }
       )
         .then(() => {
+          let resMessage = "";
           // personnalisation des réponses en fonction du like/dislike
           if (ratedObject.like === 1) {
-            res.status(200).json({ message: "Vous aimez cette sauce !" });
+            resMessage = "Vous aimez cette sauce !";
           }
           if (ratedObject.like === -1) {
-            res.status(200).json({ message: "Vous n'aimez pas cette sauce !" });
+            resMessage = "Vous n'aimez pas cette sauce !";
           }
           if (ratedObject.like === 0) {
-            res.status(200).json({ message: "Votre vote a bien été annulé !" });
+            resMessage = "Votre vote a bien été annulé !";
           }
+          res.status(200).json({ message: resMessage });
         })
         .catch((error) => res.status(400).json({ error }));
     })
