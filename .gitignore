@@ -1,7 +1,7 @@
 .vscode
 */node_modules
 .env
-backend/images
+backend/images/*
 .DS_Store
 frontend
 *.pptx
